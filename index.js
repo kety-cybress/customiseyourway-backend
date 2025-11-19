@@ -37,6 +37,8 @@ const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:3000",
   "http://www.customiseyourways.com.s3-website-us-east-1.amazonaws.com/",
+  "/*",
+  "*"
 
 ];
 
