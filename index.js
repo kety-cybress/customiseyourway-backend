@@ -42,18 +42,7 @@ const allowedOrigins = [
 
 ];
 
-app.use(cors({
-  origin: function (origin, callback) {
-    // allow REST calls from tools like Postman (no origin)
-    if (!origin) return callback(null, true);
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS: " + origin));
-    }
-  },
-  credentials: true
-}));
+app.use(cors());
 
 // Attach DB to req object
 app.use((req, res, next) => {
