@@ -31,7 +31,7 @@ async function connectToMongo() {
 app.use(express.json());
 
 // ✅ Updated CORS settings to support both local + S3 frontend
-import cors from "cors";
+
 
 const allowedOrigins = [
   "http://localhost:5173",
