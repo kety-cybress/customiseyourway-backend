@@ -31,14 +31,26 @@ async function connectToMongo() {
 app.use(express.json());
 
 // ✅ Updated CORS settings to support both local + S3 frontend
+import cors from "cors";
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  "http://www.customiseyourways.com.s3-website-us-east-1.amazonaws.com/",
+
+];
+
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "http://www.customiseyourway.com.s3-website-us-east-1.amazonaws.com",
-    "*"
-  ],
-  methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  origin: function (origin, callback) {
+    // allow REST calls from tools like Postman (no origin)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS: " + origin));
+    }
+  },
+  credentials: true
 }));
 
 // Attach DB to req object
