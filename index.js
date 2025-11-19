@@ -9,7 +9,8 @@ const { MongoClient } = require("mongodb");
 const cors = require("cors");
 
 const app = express();
-const PORT = process.env.PORT || "23.22.225.132";
+const PORT = process.env.PORT;
+const  URL = process.env.URL_BODY
 
 let client;
 let db;
@@ -17,7 +18,7 @@ let db;
 // Connect to MongoDB
 async function connectToMongo() {
   try {
-    client = new MongoClient(process.env.MONGODB_URI);
+    client = new MongoClient(process.env.MONGODB_URI || "mongodb+srv://ketiakahite:ketiahahite0707@customizeyourway.hfwkjdl.mongodb.net/?retryWrites=true&w=majority&appName=customizeyourway");
     await client.connect();
     db = client.db("customization");
     console.log("Connected to MongoDB");
@@ -152,13 +153,6 @@ app.get("/api/user", basicAuth, async (req, res) => {
 // ==================== Product Routes ====================
 const productRoutes = require("./products");
 app.use("/api/products", productRoutes(db));
-
-// ==================== Start Server ====================
-connectToMongo().then(() => {
-  app.listen(PORT, () => {
-    console.log(`✅ Server is running on http://localhost:${PORT}`);
-  });
-});
 
 
 
@@ -1121,6 +1115,6 @@ module.exports = app;
 // Startup
 app.listen(PORT, async () => {
   await connectToMongo();
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://${URL}:${PORT}`);
 });
 
